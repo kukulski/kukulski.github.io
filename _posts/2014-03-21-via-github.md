@@ -1,5 +1,6 @@
 ---
-layout:post
-title:via github
+layout: post
+title: via github
 ---
-the file naming format is important!
+is the file naming format important? (would 2014-3-21 have worked?)
+clearly, spaces after colons was key
