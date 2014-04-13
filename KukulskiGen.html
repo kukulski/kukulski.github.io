@@ -1,0 +1,528 @@
+<!doctype html>
+<html><head>
+<meta charset="UTF-8">
+<title>Timothy Kukulski, February 2014</title>
+    <style>  /* embedded rather than linked, to distribute as a single file */
+html{min-height:100%;position:relative}
+  body { 
+FONT-SIZE: 10pt; 
+FONT-FAMILY: "chaparral-pro", Warnock-Pro, Cochin, Palatino, Times, serif; 
+margin-right:  1 em;
+margin-left: 20 em;
+MARGIN-BOTTOM: 0.5em; 
+LINE-HEIGHT: 1.2rem;
+margin-top: 6.1rem;
+height:100%;
+}
+	
+P, UL, LI, DD, div {
+MARGIN-TOP: 0; 
+MARGIN-BOTTOM: 0; 
+font-size: 100%;
+}
+	.gridHolder {
+	margin:0;
+	left:0;
+	top:0;
+	padding:0;
+ 	width:100%;
+ 	height:100%;
+ 	position:fixed;
+    	overflow:hidden;
+ 	}
+	
+	pre { 
+		display: block;
+		color:cyan;
+	margin-top:0;
+	margin-left:64em;
+	padding:0;
+ 	position:absolute;
+ 	z-index:-1;
+ 	font-size:1rem;
+ 	line-height:1.19rem;
+ 	}
+   .bgGrid {
+ 	display: block;
+	margin:0;
+	padding:0;
+   	width:100%;
+   	height:62rem;
+   	float:none;
+   	background-color: transparent;
+    background-image: linear-gradient(0deg, rgba(0,128,128, .25), transparent 1px, transparent );
+  background-size: 2%;
+  
+   }
+	
+/* set up columns */
+/* left column */
+    .section, .dates, .role	{
+	margin-left:0%;  
+	width: 8rem;   
+    float: left;
+        clear:left;
+    }
+    	 /* right column */ 
+    P, ul, div {
+		margin-left: 9rem;
+	}
+
+    
+    .date { margin-left:0%;  
+    }
+    .date:nth-child(2):before {
+   /*     content:"\2014\2002";*/
+    }
+    .dates { 
+        text-transform:uppercase; 
+        font-size:.6rem;
+        margin-top:.09rem;
+        margin-bottom:-.09rem;
+    }
+        
+    .place {
+        clear:left;
+        float:none;
+        font-size: 1.2rem;
+   		margin-top: -.35rem;
+   		margin-bottom: .12rem;
+    }
+    .name	{	
+	FONT-SIZE: 1.5rem;
+   		margin-top: -.18rem;
+   		margin-bottom: .18rem;
+	}
+	   
+
+    P {margin-bottom: 1.2rem;}
+/* 
+    p + ul {
+    margin-top: -1.2rem;
+    }
+ */
+    
+    .place {margin-bottom: 0rem;}
+    ul {padding: 0; 
+    margin-bottom: 1.2rem;}
+    
+    .keywords {
+    margin-bottom: 1.2rem;
+    } 
+    li {margin-left:  1 em; display: inline;  text-transform:uppercase; font-size:75%;}
+    li:before { content: "\2002\2022\00A0\00A0";}
+    li:first-of-type:before { content: "";}
+
+	/* do name large */
+
+ 
+	 
+ /*   .address {	FONT-SIZE: small; FONT-FAMILY: Arial Narrow,Tahoma, Helvetica,Arial;}*/
+
+    .section 	{
+	float: none;  /* no wrap */
+	BORDER-BOTTOM: black 0.2rem solid; /* thick underline */
+	padding-top: 1.2rem;
+	margin-bottom: -.21rem;
+	}
+
+	.place, .title, .role, .department, .school 	{ 
+	margin-bottom:0pt;
+	} /* vertical space between jobs */
+	
+
+	.place, .department, .role 	{
+	FONT-WEIGHT: bold; /* display place 'strong' */
+	}
+
+    .email:after { content: "@gmail.com";}
+    
+	.temp, .note	{
+	display: none;
+	}  
+	
+	
+	    
+    @media all and (max-width: 20rem) {
+    
+     .section, .dates, .role	{
+		  float: none;
+		  width:100%;
+        	clear:left;
+    }
+    	 /* right column */ 
+    	P, ul, div { margin-left:0%; }
+    	P, ul { clear: both;} 
+    .section 	{
+	float: none;  /* no wrap */
+	BORDER-BOTTOM: black 0.2rem solid; /* thick underline */
+	padding-top: 1.2rem;
+	margin-bottom: 1.2rem;
+	}
+	
+	.date, .role, .department {
+		display: inline;
+
+	}
+	
+	
+/* 
+	.dates {
+		display:  block;
+		float: right;
+		right: 0px;
+		width: auto;
+		clear: right;
+	}
+ */
+	.role+.department:before {content:"; "}
+	 .date:nth-of-type(2):before {
+	 	content:"\2002"
+	 }
+
+    } /* if we're running narrow
+    
+    </style>
+<script type="text/javascript">  /* Teeny tiny parser */
+
+
+function formatAndDisplay() 
+{
+    var lines = document.getElementById("mmd").innerHTML.split(/\n+/);
+    var trimmedLines = lines.map(mTrim).filter(identity);
+	var entries = trimmedLines.map(makeEntry)
+
+//    lines.forEach(process);
+}
+
+function makeEntry(line) {
+	process(line)
+}
+
+
+function keywordList(line) {
+    line = line.substring(0,line.length-1)
+        
+    var keywords = line.split(/\s*,\s*/); 
+    var outer = document.createElement('ul')
+    outer.className = 'keywords';
+    
+    for(var i= 0 ; i < keywords.length; i++) {
+        var keyword = keywords[i];
+        outer.appendChild(makeTag(keyword,"",'li'));
+    }
+    return outer;
+}
+
+function textKeywordList(line) {
+    line = line.substring(0,line.length-1)
+        
+    var keywords = line.split(/\s*,\s*/); 
+    var outer = document.createElement('div')
+    outer.className = 'keywords';
+    
+    outer.innerHTML = keywords.join("\u2002\u2022\u2002");
+    return outer;
+}
+    
+function dateSplit(line) {
+ var dates = line.split(/\s*-\s*/);
+    var outer = document.createElement('div')
+    outer.className = 'dates';
+    
+    for(var i= 0 ; i < dates.length; i++) {
+        var keyword = dates[i];
+        outer.appendChild(makeTag(keyword,"date",'div'));
+    }
+    return outer;     
+}
+
+function dateSplitText(line) {
+ var dates = line.split(/\s*-\s*/);
+    var outer = document.createElement('div')
+    outer.className = 'dates';
+    
+        outer.appendChild(makeTag(dates[0],"date",'div'));
+        outer.appendChild(makeTag('\u2014\u2002'+dates[1],"date",'div'));
+    return outer;     
+}
+var skip = function() { return null;}
+
+var tagExpansions = {
+  //  keywords:textKeywordList,
+  
+  // 	name: skip,
+//   	location: skip,
+//   	email: skip,
+//     place: skip,
+//     department: skip,
+//     plain: skip,
+//     keywords: skip,
+//     
+    
+    
+    
+    keywords:keywordList,
+    dates:dateSplitText,
+  
+    //dates: skip,
+    //role: skip,
+    //section: skip,
+    
+    
+}
+    
+function makeTag(innerText, className, tagName ) {
+    
+    var expanderName = className || "plain"
+    var expander = tagExpansions[expanderName];
+    if(expander) return expander(innerText);
+    
+    var elt = document.createElement(tagName ? tagName : 'div');
+    if(className) elt.className = className;
+    
+    var italicized = innerText.replace(/_([^_]*)_/g,"<i>$1</i>");
+    
+  //  innerText ||= '';
+   // elt.innerText = innerText;
+   	elt.innerHTML = italicized
+    return elt;
+}
+                                                  
+function stripLine(line) { return line.substring(1).trim();}
+
+function namedClass(line) {
+    var stripped = stripLine(line)
+    var matched = stripped.match(/(\w+):?\s*(.*)/);
+    return makeTag(matched[2],matched[1],"div");
+}
+
+
+function shorthand(className) { return function(line) { return makeTag(stripLine(line),className)};}
+    
+var processors = {
+    ".":namedClass,
+    "=":shorthand('section'),
+    "@":shorthand('place'),
+    "#":shorthand('role'),
+    "(":shorthand('keywords'),
+};
+    
+var kLineBreak = document.createElement("br"); 
+function identity(e) { return e }
+function mTrim(s) { return s.trim() }
+
+
+function process(line) {
+   line = line.trim();
+	if(line.length == 0) return;
+    
+ var fn = processors[line.charAt(0)];
+ var elt = fn ? fn(line) : makeTag(line,undefined,'p');
+ if(elt) {
+  	document.body.appendChild(elt); 
+  	
+  	document.body.appendChild(kLineBreak);
+  	}
+}
+    
+
+</script>    
+    
+    </head>
+    <body onload="formatAndDisplay()">
+<!-- 
+  <div class='gridHolder'>
+  	<pre class='beat'>
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	_
+  	</pre>
+  	<div class='bgGrid'></div>
+ 	<div class='bgGrid'></div>
+ <div class='bgGrid'></div>
+ <div class='bgGrid'></div>
+ <div class='bgGrid'></div>
+ <div class='bgGrid'></div>
+ </div>
+ -->
+
+<script id='mmd' type="text/micromarkdown">
+.name Timothy Walter Kukulski
+.location Oakland, CA
+.email timothy.kukulski
+
+= Summary
+Over 20 years experience designing and building highly interactive user interface at companies large and small.
+
+= Experience
+
+@ Adobe
+.role Lead Scientist, Architect
+.department Experience Design
+.dates March 2010 - Present
+
+I build application architectures to enable _playful development_ where the design team works hand-in-hand with product engineering. By decoupling deep rocket-science (e.g.: a fast graphics stack) from application structure and fine-grained interaction, the boundaries between iterative design and production code are reduced. 
+
+I stake out technical vision and best practices for multitouch and stylus interaction for mobile, desktop, and installation-scale displays. By providing inspiration and key architectural solutions to the design & engineering teams, I get better product out the door faster. Recent projects: Mighty (cloud-enabled stylus), Context (big-screen, cross-device collaboration), Children's Creativity Museum _Sense It_ exhibit (8′x14′ touch-sensitive LED wall with active floor, embedded linux)
+
+(Lua, C++, Objective-C, OpenGL/GLES/GLSL, IOS, Android, embedded HTML5, Prototyping, Interaction Design, Lean Startup)
+
+.role Senior Experience Engineer
+.department Experience Design
+.dates August 2008 - March 2010
+
+Bootstrapped multitouch for Flash and AIR: devised initial experiments, producing fully functional systems that proved the concept and drove the API definition.
+Technical heft, deep interaction prototyping, and commando engineering, occasionally embedding in product teams to ensure feature delivery.
+(AS3, C++, Java)
+
+
+.role Senior Software Engineer
+.department Adobe Acrobat
+.dates September 2005 - July 2008
+Lead architecture and development of PDF Portfolios for Acrobat 9 and 9.1 and its underlying SDK. Architecture and implementation of high-performance secure bridge to embed the Flash runtime into Acrobat.
+High fit & finish, UI implementation (pixel shaving) with an eye toward performance, ensuring that the front end remains fluid and responsive. 
+(C++, AS3, UI Development, API development, embedded Javascript, embedded Flash)
+
+.role Senior Computer Scientist
+.department Advanced Technology Labs
+.dates October 2004 - August 2005
+Architecture and implementation of markup-driven java UI framework.
+
+Developed a concise XML grammar an an accompanying runtime to instantiate and configure Java objects from concise markup. System has has swappable back-ends to deploy the same application against varying target platforms such as Swing, SWT, or SVG. 
+
+(Java, XML, XBL)
+
+@ Autodesk
+.role Senior Product Designer
+.department Autocad
+.dates January 2001 - June 2002
+Lead the design process for the Tool Palettes Extension and 3d navigation, face picking, and direct-manipulation extensions to AutoCAD. 
+
+Lead design of enterprise features for AutoCAD. Observed the work practices of key customers in order to refine the feature set and define workflows and data models. 
+
+Negotiated requirements, developed and validated conceptual designs. Applied technical knowledge within design reviews to improve adoption of features into product. Produced and iterated upon detailed interactive prototypes and produced formal specifications including detailed descriptions of edge-case behaviors. 
+
+(Contextual Design, Formal Specifications, Conceptual Design, Prototyping, Flash)
+
+@ Therm
+.role Artist, Machinist
+.dates September 1998 - October 2002
+Design and fabrication of components of kinetic sculpture for public exhibition. 
+(Mechanical design, Lathe, Mill, TIG welding)
+
+@ Xigo.com, Ububu.com, Asera
+.role Consultant
+.dates September 1998 - January 2001
+Extended Oracle8 database schema and implemented accompanying WebLogic/JDBC code to deliver servlet-based solutions in the consumer and ASP markets, providing seamless integration of syndicated content, relational data, and third-party collaboration software to HTML, XML and Macromedia Flash clients.
+Optimized and extended 3rd party AWT classes to provide performance, small footprint, and browser compatibility, delivering best-in-class UI for a next-generation electronic stock brokerage.
+(Java, SQL, full-stack, Flash, Application Architecture)
+
+@ Ensemble Solutions
+.role Senior Engineering Architect
+.dates December 1997 - July 1998
+Delivered four releases of client-side and server-side components on time under a tight schedule. Implemented best-practices to the requirements and scheduling processes, ensuring that development goals were in line with technology plan and sales needs.
+Developed public-key security subsystem and administrative UI for IIOP-based distributed object infrastructure.
+(Java, UI Development)
+
+@ WebFlow
+# Manager, Product Design
+.dates May 1996 - December 1997
+Built team responsible for UI design and development for DHTML and ActiveX clients. Lead transition to SQL-based three-tier architecture.
+(Paper Prototyping, Contextual inquiry, SQL, C++, Java, Javascript, Visual Basic, ASP)
+
+@ Vicarious
+# Senior Software Engineer
+.dates January 1995 - May 1996
+Cross platform UI, SIMD-optimized antialiased text engine and high-performance data access infrastructure for multimedia encyclopedia.
+
+@ Oracle
+# Software Engineer
+.department Oracle Office Directory Services
+.dates June 1993 - January 1995
+UI design and development. Improved performance and scalability by optimizing client-server communications and use of PL-SQL stored procedures.
+
+@ MIT Media Lab
+# Undergraduate Researcher
+.department Visible Language Workshop
+.dates September 1989 - May 1993
+Interaction design and development in collaboration with graduate researchers from design and engineering backgrounds.
+
+@ Apple
+# Engineering Intern
+.department Quickdraw GX
+.dates May 1992 - August 1992
+Design and development of direct-manipulation vector-editing UI
+
+@  NYNEX 
+# Intern, Consultant
+.department Science and Technology
+.dates May 1991 - December 1991
+Technology transfer -- design and implementation of multimedia scripting and presentation environment for large HiDPI displays. 
+
+= Education
+@ Massachusetts Institute of Technology
+# Bachelor's of Science
+.department Electrical Engineering and Computer Science
+.dates September 1989 -  May 1993
+Thesis: _Sturdy Fonts for CRT Display: Improving Readability of Text at Small Pixel Sizes_
+
+</script>
+</body></html>
